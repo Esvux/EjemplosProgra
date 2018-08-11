@@ -15,6 +15,24 @@ public class MenuPerson {
 		//Leyendo opción ingresada
 		int option = read.nextInt();
 
+		switch(option) {
+			case 1:
+				System.out.println("Creando...");
+				Person person = createPerson();
+				System.out.println(person.toString());
+				break;				
+			case 2:
+				System.out.println("Modificando...");
+				break;
+			case 3:
+				System.out.println("Eliminando...");
+				break;
+			default:
+				System.out.println("Opción inválida");
+				System.out.println("Bye :(");
+		}
+
+		/*
 		if (option == 1) {
 			System.out.println("Creando...");
 			Person person = createPerson();
@@ -26,7 +44,7 @@ public class MenuPerson {
 		} else {
 			System.out.println("Opción inválida");
 			System.out.println("Bye :(");
-		}
+		}*/
 	}
 
 
@@ -40,7 +58,7 @@ public class MenuPerson {
 		System.out.println("Ingrese los apellidos:");
 		p.lastName = read.nextLine();
 
-		System.out.println("Ingrese el género (M/F):");
+		System.out.println("Ingrese el género:");
 		String genderTemp = read.next();
 		p.gender = genderTemp.charAt(0);
 
