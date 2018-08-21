@@ -1,9 +1,0 @@
-/**
- * Este programa pedirá al usuario números con punto
- * decimal para calcular el promedio de todos los números
- * ingresados, después de ingresar cada número preguntará
- * al usuario si se desea seguir ingresando datos, si la 
- * respuesta es si (sin importar mayúsculas o minúsculas)
- * el programa pedirá un nuevo número, de lo contrario se
- */ * 
-
