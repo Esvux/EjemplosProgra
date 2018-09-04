@@ -1,3 +1,4 @@
+import java.util.Scanner;
 /**
  * Hacer un programa que solicite al usuario 10 números
  * enteros, mostrar en pantalla el número que más veces
@@ -21,7 +22,7 @@ public class EjercicioArreglos02 {
 			boolean esElPrimero = true;
 			for(int j=0; j<numeros.length; j++) {
 				int recorridoActual = numeros[j];
-				if(numeroActual == num) {
+				if(numeroActual == recorridoActual) {
 					contadores[i]++;
 				}
 			}
