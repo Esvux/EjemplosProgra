@@ -11,7 +11,9 @@ public class Spotify {
 		Cancion cancion1 = new Cancion("Pingüinos en la cama", 3.45);
 		
 		//Ricardo Arjona
-		misArtistasFavoritos[3].canciones[0] = cancion1;
+		Artista ricardo = misArtistasFavoritos[3];
+		System.out.println(ricardo.nombre);
+		ricardo.canciones[0] = cancion1;
 
 		//Cuanto dura la canción de Pingüinos en la cama de Ricardo Arjona
 		System.out.println(misArtistasFavoritos[3].canciones[0].duracion);
