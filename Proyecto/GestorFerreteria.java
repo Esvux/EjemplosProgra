@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.io.*;
 /**
  * (x) Tener el arreglo de 'misCategorias'
  * (x) Crear nuevas categorías
@@ -14,20 +15,14 @@ public class GestorFerreteria {
 	int posicion;
 
 	public GestorFerreteria() {
-		capacidadActual = 1;
+		capacidadActual = 10;
 		posicion = 0;
 		scan = new Scanner(System.in);
 		misCategorias = new Categoria[capacidadActual];
 	}
 
 	public void crearCategoria() {
-		if(posicion==capacidadActual) {
-			System.out.println("Aumentando la capacidad!!!");
-			capacidadActual = capacidadActual * 2;
-			misCategorias = Arrays.copyOf(misCategorias, capacidadActual);
-		}
 		System.out.println("Creando una nueva categoría");
-		
 		//Obteniendo la información de la nueva categoría
 		System.out.print("Ingrese el nombre: ");
 		String nombre = scan.nextLine();
@@ -40,8 +35,7 @@ public class GestorFerreteria {
 		Categoria nueva = new Categoria(nombre, codigo, descripcion);
 
 		//Guardando en el arreglo
-		misCategorias[posicion] = nueva;
-		posicion++;
+		agregarCategoria(nueva);
 
 		//Mensaje de éxito
 		System.out.println("Categoría creada correctamente.");
@@ -96,7 +90,25 @@ public class GestorFerreteria {
 		}
 	}
 
-	public void crearProducto(Categoria categoria) {
+	public void crearProducto() {
+		System.out.println("Creando un nuevo producto");
+		//Obtener categoría
+		int contadorErrores = 0;
+		Categoria categoriaDelProducto;
+		do {
+			System.out.print("Ingrese categoría a la que pertenece el producto: ");
+			String codigoCategoria = scan.nextLine();
+		 	categoriaDelProducto = buscarCategoria(codigoCategoria);
+		 	if(categoriaDelProducto==null) {
+		 		contadorErrores++;
+		 	}
+		 	if(contadorErrores == 3) {
+		 		System.out.println("Demasiados intentos... Bye ;)");
+		 		return;
+		 	}
+		 	//Ciclos de permanencia
+		} while(categoriaDelProducto == null);
+
 		//Obteniendo la información del nuevo producto
 		System.out.print("Ingrese el código: ");
 		String codigo = scan.nextLine();
@@ -117,10 +129,60 @@ public class GestorFerreteria {
 
 		//Creando el nuevo producto
 		Producto prd = new Producto(nombre, codigo, descripcion, precio, existencias);
-		categoria.agregarProducto(prd);
+		categoriaDelProducto.agregarProducto(prd);
 
 		//Mensaje de éxito
-		System.out.println("Categoría creada correctamente.");
+		System.out.println("Producto creado correctamente.");
+	}
+
+	public void mostrarInventario() {
+		System.out.println("- INVENTARIO -");
+		for (Categoria cat : misCategorias) {
+			if(cat == null) {
+				continue;
+			}
+			//Aquí 
+			System.out.println(cat.nombre);
+			for (Producto prd : cat.productos) {
+				if(prd == null){
+					continue;
+				}
+				System.out.println(prd);
+			}
+		}
+	}
+
+	public void agregarCategoria(Categoria nuevaCategoria) {
+		if(posicion==capacidadActual) {
+			System.out.println("Aumentando la capacidad!!!");
+			capacidadActual = capacidadActual * 2;
+			misCategorias = Arrays.copyOf(misCategorias, capacidadActual);
+		}
+		misCategorias[posicion] = nuevaCategoria;
+		posicion++;
+	}
+
+	public void cargarCategorias() {
+		try {
+			FileReader reader = new FileReader("categorias.csv");
+			BufferedReader buffer = new BufferedReader(reader);
+			//Leer la primera línea
+			String currentLine = buffer.readLine();
+			//Continuar la lectura, línea por línea hasta el final
+			while (currentLine != null) {
+				//Aquí se tiene la línea actual
+				String[] columns = currentLine.split(",");
+				Categoria nueva = new Categoria(columns[1], columns[0], columns[2]);
+				agregarCategoria(nueva);
+				
+				//Aquí se sustituye la línea actual por la siguiente línea
+				currentLine = buffer.readLine();
+			}
+			buffer.close();
+			reader.close();
+		} catch (IOException ioex) {
+			System.err.println("Imposible leer el archivo de categorías");
+		}
 	}
 	
 }

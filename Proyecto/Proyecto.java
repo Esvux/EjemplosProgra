@@ -3,11 +3,12 @@ import java.util.Scanner;
 public class Proyecto {
 
 	static Scanner scan = new Scanner(System.in);
-	static GestorCategorias gestor;
+	static GestorFerreteria gestor;
 
 	public static void main(String args[]) {
 		//Inicio
-		gestor = new GestorCategorias();
+		gestor = new GestorFerreteria();
+		gestor.cargarCategorias();
 		menuPrincipal();
 		//Fin
 	}
@@ -32,10 +33,10 @@ public class Proyecto {
 				"",
 				"Seleccione una opción:"
 			);
-			opcion = scan.nextInt();
+			opcion = customNextInt();
 			while(opcion < 0 || opcion > 4) {
 				System.out.println("Opción incorrecta, inténtelo nuevamente...");
-				opcion = scan.nextInt();
+				opcion = customNextInt();
 			}
 
 			switch (opcion) {
@@ -43,6 +44,8 @@ public class Proyecto {
 					subMenuCategorias();
 					break;
 				case 2:
+					subMenuProductos();
+					break;
 				case 3:
 				case 4:
 			}
@@ -62,10 +65,10 @@ public class Proyecto {
 				"",
 				"Seleccione una opción:"
 			);
-			opcion = scan.nextInt();
+			opcion = customNextInt();
 			while(opcion < 0 || opcion > 3) {
 				System.out.println("Opción incorrecta, inténtelo nuevamente...");
-				opcion = scan.nextInt();
+				opcion = customNextInt();
 			}
 			switch (opcion) {
 				case 1:
@@ -81,6 +84,41 @@ public class Proyecto {
 		} while(opcion != 0);
 	}
 
+	public static void subMenuProductos() {
+		int opcion;
+		do{
+			mostrarMenuConRecuadro(
+				"GESTIÓN DE PRODUCTOS",
+				"Opciones disponibles:",
+				"  1) Crear producto",
+				"  2) Buscar producto por código",
+				"  3) Aumentar las existencias",
+				"  4) Mostrar todos los productos",
+				"  0) Regresar",
+				"",
+				"Seleccione una opción:"
+			);
+			opcion = customNextInt();
+			while(opcion < 0 || opcion > 4) {
+				System.out.println("Opción incorrecta, inténtelo nuevamente...");
+				opcion = customNextInt();
+			}
+			switch (opcion) {
+				case 1:
+					gestor.crearProducto();
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					gestor.mostrarInventario();
+					break;
+			}
+		} while(opcion != 0);
+	}
+
+
 	public static void mostrarMenuConRecuadro(String ... lineas) {
 		String barra = "+---------------------------------------------------+";
 		System.out.println();
@@ -95,6 +133,12 @@ public class Proyecto {
 		}
 		System.out.println(barra);
 		System.out.println();
+	}
+
+	private static int customNextInt() {
+		int opcion = scan.nextInt();
+		scan.nextLine();
+		return opcion;
 	}
 
 }
